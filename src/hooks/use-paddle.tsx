@@ -32,7 +32,7 @@ const usePaddle = () => {
           },
         });
 
-        if (paddleInstance) setPaddle(paddleInstance);
+        setPaddle(() => paddleInstance);
       } catch (error) {
         console.error("Error in initializing: ", error);
         const err = parseError(error);
@@ -44,7 +44,7 @@ const usePaddle = () => {
     }
 
     initiatePaddle();
-  }, []);
+  }, [paddle, toast]); // ✅ Added missing dependencies
 
   return paddle;
 };

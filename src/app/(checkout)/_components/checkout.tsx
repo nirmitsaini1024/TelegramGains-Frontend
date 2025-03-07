@@ -4,7 +4,7 @@ import { IGroup } from "@/@types/models";
 import usePaddle from "@/hooks/use-paddle";
 import { APP_DOMAIN } from "@/lib/env";
 import { RiLoader3Fill } from "@remixicon/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const Checkout = ({
   group,
@@ -16,9 +16,12 @@ const Checkout = ({
   const paddle = usePaddle();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const handleCheckout = useCallback(() => {
+    if (!paddle) return; // Ensure paddle is initialized
+
     setIsLoading(true);
-    paddle?.Checkout.open({
+
+    paddle.Checkout.open({
       settings: {
         displayMode: "overlay",
         theme: "light",
@@ -43,8 +46,13 @@ const Checkout = ({
         },
       },
     });
+
     setIsLoading(false);
-  }, [paddle]);
+  }, [paddle, anonymousKey, group._id, group.owner, group.price, group.price_id]);
+
+  useEffect(() => {
+    handleCheckout();
+  }, [handleCheckout]);
 
   return (
     <div className="w-screen h-screen">

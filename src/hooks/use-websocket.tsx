@@ -23,13 +23,13 @@ const useWebsocket = (callback: () => void, key?: string) => {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
 
-    callback();
+    callback(); // Ensure this is stable with useCallback in parent
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
     };
-  }, []);
+  }, [callback, key]); // ✅ Added missing dependencies
 };
 
 export default useWebsocket;
