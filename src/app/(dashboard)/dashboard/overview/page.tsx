@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // ✅ Forces dynamic rendering
+
 import getServerSession from "@/lib/better-auth/server-session";
 import Overview from "./_components/overview";
 import { redirect } from "next/navigation";
